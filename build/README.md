@@ -9,8 +9,13 @@ toolchain and 32-bit development dependencies. On the Volterra test system,
 that environment was entered with `FEXBash`; running Meson directly in the
 AArch64 host shell would build the wrong architecture.
 
+The recorded build starts from Valve's `steamos-26.05.16` tag at commit
+`035ae2f854d7508cfcd76719f2bf4f0838c7ef57`. The corresponding published
+source package and its SHA-256 are pinned in the
+[`i686 build receipt`](../evidence/i686-build.txt).
+
 After applying `patches/0001-freedreno-clamp-view-relative-min-lod.patch`
-to the Mesa source tree:
+to that Mesa source tree:
 
 ```sh
 export PKG_CONFIG_LIBDIR=/usr/lib32/pkgconfig:/usr/share/pkgconfig

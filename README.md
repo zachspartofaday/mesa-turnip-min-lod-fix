@@ -48,8 +48,9 @@ return zero. With the patch, both reads match. See the
 ### 32-bit driver status
 
 The source correction is shared by 64-bit and 32-bit Turnip builds; there is
-no separate i686 code patch. The patched Valve/SteamOS source candidate now
-also builds successfully as a genuine i386 `libvulkan_freedreno.so`:
+no separate i686 code patch. The patched Valve/SteamOS `steamos-26.05.16`
+source at commit `035ae2f854d7508cfcd76719f2bf4f0838c7ef57` also builds successfully
+as a genuine i386 `libvulkan_freedreno.so`:
 
 | Property | Recorded value |
 | --- | --- |
