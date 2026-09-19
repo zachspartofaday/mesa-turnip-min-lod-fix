@@ -1,0 +1,58 @@
+Turnip minimum-LOD patch: first i686 build receipt
+Date: 2026-09-19
+
+Device used for the build:
+  Microsoft Windows Dev Kit 2023 / AArch64 host
+
+Build execution environment:
+  x86-64 Arch rootfs entered through FEXBash
+  GCC 16.2.1 20260810
+  Meson 1.9.0
+  Ninja 1.13.2
+  PKG_CONFIG_LIBDIR=/usr/lib32/pkgconfig:/usr/share/pkgconfig
+
+Mesa source:
+  Valve/SteamOS mesa-steamos-26.05.16 candidate
+  Mesa project version: 26.2.0-devel
+  Patched fd6_view.cc SHA-256:
+    60beaa350c60e9acfcf42cafe0b768b80da09e6cf846958b82400c573a827162
+
+Meson target identity:
+  Build machine: x86_64
+  Host machine: i686
+  sizeof(void *): 4
+  Build type: release
+  Vulkan drivers: freedreno
+  Freedreno KMDs: msm
+  Platforms: x11, wayland, xcb
+  LLVM: disabled
+  Gallium: disabled
+
+Output:
+  ELF 32-bit LSB shared object, Intel i386
+  Build ID: e6101b617dbe78a407c1a2f8b3c9962dde16965c
+  SHA-256:
+    1a78d619737de6b4febc6f34ce090c41e5f30a8098d7f74c895e0eaa4de6164e
+
+Preserved test-system artifacts:
+  Patched:
+    /home/deck/volterra-experiments/cs2-hzb-repro/
+      rootfs-patched-min-lod-libvulkan_freedreno-i686.so
+  Stock:
+    /home/deck/volterra-experiments/cs2-hzb-repro/
+      rootfs-stock-libvulkan_freedreno-i686.so
+  Stock SHA-256:
+    ac085ec327defabc967f134704af27f3c507b1aefa74378e322ea28d3e159a0f
+  Stock Build ID:
+    6195ecf077a898e46b89f947e571c65e7e04b158
+
+Safety state:
+  The patched i686 driver was not installed into the live rootfs.
+  The live usr/lib32 driver remained byte-identical to the preserved stock
+  copy when this receipt was recorded.
+
+Validation boundary:
+  This receipt proves that the same source fix builds as a genuine i386 DSO.
+  It does not claim a GPU pass or an application fix for a 32-bit title.
+  Those tests are deferred until Valve FEX and FEX-Volterra can be selected
+  as coherent, non-mixed compatibility tools.
