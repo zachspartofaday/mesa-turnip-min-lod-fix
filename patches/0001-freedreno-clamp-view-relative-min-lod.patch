@@ -1,0 +1,14 @@
+diff --git a/src/freedreno/fdl/fd6_view.cc b/src/freedreno/fdl/fd6_view.cc
+index df6abfc9c541723af1ea19c21c55ebec0f88b7e1..ab40075cd4670e2414c4555c16123638f8f739ec 100644
+--- a/src/freedreno/fdl/fd6_view.cc
++++ b/src/freedreno/fdl/fd6_view.cc
+@@ -304,7 +304,8 @@ fdl6_view_init(struct fdl6_view *view, const struct fdl_layout **layouts,
+                                   util_logbase2_ceil(args->filter_num_phases) / 2) |
+                                A6XX_TEX_MEMOBJ_6_DILATION(1);
+       } else {
+-         view->descriptor[6] = A6XX_TEX_MEMOBJ_6_MIN_LOD_CLAMP(args->min_lod_clamp - args->base_miplevel);
++         view->descriptor[6] = A6XX_TEX_MEMOBJ_6_MIN_LOD_CLAMP(
++            MAX2(0.0f, args->min_lod_clamp - (float)args->base_miplevel));
+       }
+
+       if (layout->tile_all)

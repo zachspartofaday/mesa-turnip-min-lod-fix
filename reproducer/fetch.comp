@@ -1,0 +1,19 @@
+#version 450
+
+// Compare the same physical mip through full-image and rebased views.
+#extension GL_EXT_samplerless_texture_functions : require
+
+layout(local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
+layout(set = 0, binding = 0) uniform texture2D fullImage;
+layout(set = 0, binding = 1) uniform texture2D rebasedImage;
+layout(std430, set = 0, binding = 2) buffer Results {
+    vec4 values;
+} results;
+
+void main()
+{
+    results.values.x = texelFetch(fullImage, ivec2(0, 0), 4).x;
+    results.values.y = texelFetch(rebasedImage, ivec2(0, 0), 0).x;
+    results.values.z = texelFetch(fullImage, ivec2(63, 63), 4).x;
+    results.values.w = texelFetch(rebasedImage, ivec2(63, 63), 0).x;
+}
