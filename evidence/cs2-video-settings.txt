@@ -1,0 +1,48 @@
+# Counter-Strike 2 video settings used for the published captures
+# Source: /home/deck/.local/share/Steam/userdata/9084124/730/local/cfg/cs2_video.txt
+# Captured: 2026-09-19
+
+Resolution: 1920x1080
+Aspect ratio: 16:9
+Display mode: Fullscreen Windowed
+Vertical sync: Disabled
+Shader quality: Low
+Model / texture detail: Low
+Texture filtering: Anisotropic 2x
+Multisampling anti-aliasing: None
+Global shadow quality: Low
+Dynamic shadows: Sun Only
+Particle detail: Low
+Ambient occlusion: Disabled
+High dynamic range: Performance
+FidelityFX Super Resolution: Disabled
+Low-latency mode: Enabled
+Gamma: 2.2
+
+# Relevant raw values
+setting.defaultres=1920
+setting.defaultresheight=1080
+setting.fullscreen=0
+setting.coop_fullscreen=1
+setting.nowindowborder=1
+setting.mat_vsync=0
+setting.shaderquality=0
+setting.r_texturefilteringquality=2
+setting.msaa_samples=0
+setting.r_csgo_cmaa_enable=0
+setting.videocfg_shadow_quality=0
+setting.videocfg_dynamic_shadows=0
+setting.videocfg_texture_detail=0
+setting.videocfg_particle_detail=0
+setting.videocfg_ao_detail=0
+setting.videocfg_hdr_detail=3
+setting.videocfg_fsr_detail=0
+setting.r_low_latency=1
+setting.aspectratiomode=1
+r_fullscreen_gamma=2.2
+
+# Driver/runtime context
+Workload: Dust II offline practice deathmatch with bots
+Vulkan path: x86 Turnip loaded from the FEX rootfs; Vulkan thunks disabled
+CS2-scoped drirc: tu_dont_reserve_descriptor_set=true
+TU_DEBUG: unset

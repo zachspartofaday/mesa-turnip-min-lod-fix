@@ -149,9 +149,15 @@ RenderDoc traced a black building to this chain:
 
 With the patched x86 driver, a live Dust II practice match renders the world,
 weapon, materials, lighting, and HUD correctly. The CS2 process mapping was
-checked and points to the patched `libvulkan_freedreno.so`. The retained
-in-game screenshot has SHA-256
-`366254023fcff421779545a98fab6261d068b6b3e6d0dd04362858ce23875fa6`.
+checked and points to the patched `libvulkan_freedreno.so`. Clean native
+1920x1080 screenshots taken after spawn protection expired are retained as
+`evidence/images/before-stock.png` and `evidence/images/after-patched.png`,
+with SHA-256 values
+`3fd7b0dcefe7eed8e1066a152704b0bebbadaaf3b7ca16b00ce3747f8f358c57`
+and
+`643f76bc356d1dbab627993fee735d0645fd588963624a1dd5686693828d5d0e`.
+They use the same settings and workload but different viewpoints, so their
+FPS overlays are not a performance comparison.
 
 The earlier observation that `TU_DEBUG=sysmem` changed the corruption remains
 useful historical context, but it is no longer the primary root-cause

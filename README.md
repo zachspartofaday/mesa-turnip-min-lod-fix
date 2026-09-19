@@ -58,14 +58,65 @@ Khronos validation produced no messages for the standalone test. The CS2
 RenderDoc analysis traced one visible black building from valid depth, through
 zeroed hierarchical-depth mips, to a zero-index indirect color draw.
 
-Patched live result (Dust II, Adreno 690, approximately 31 FPS in this frame):
+Clean live comparison after spawn protection expired:
 
-![CS2 Dust II rendering with the patched x86 Turnip driver](evidence/images/cs2-min-lod-patched-ingame.png)
+| Stock x86 Turnip | Patched x86 Turnip |
+| --- | --- |
+| [![CS2 Dust II with missing world color draws](evidence/images/before-stock.png)](evidence/images/before-stock.png) | [![CS2 Dust II rendering correctly](evidence/images/after-patched.png)](evidence/images/after-patched.png) |
+| Severe black-world corruption; overlay shows 32 FPS average | World color draws restored; overlay shows 33 FPS average |
 
-The image's SHA-256 is
-`366254023fcff421779545a98fab6261d068b6b3e6d0dd04362858ce23875fa6`.
-The image demonstrates restored world color draws; it is not presented as a
-performance benchmark or a claim that every separate rendering issue is fixed.
+Both images are native 1920x1080 captures from the same Dust II offline
+deathmatch and the same game configuration. They are not the same viewpoint or
+a performance benchmark. In particular, the stock frame does less useful
+rendering, so its frame rate must not be treated as a meaningful comparison.
+
+### CS2 test configuration and performance scope
+
+| Setting | Value |
+| --- | --- |
+| Display mode and resolution | Fullscreen Windowed, 1920x1080, 16:9 |
+| Vertical sync | Disabled |
+| Shader quality | Low |
+| Model / texture detail | Low |
+| Texture filtering | Anisotropic 2x |
+| Multisampling anti-aliasing | None |
+| Global shadow quality | Low |
+| Dynamic shadows | Sun Only |
+| Particle detail | Low |
+| Ambient occlusion | Disabled |
+| High dynamic range | Performance |
+| FidelityFX Super Resolution | Disabled; native-resolution rendering |
+| Low-latency mode | Enabled |
+| Gamma | 2.2 |
+| Workload | Dust II, offline practice deathmatch with bots |
+
+The raw configuration snapshot is retained in
+[`evidence/cs2-video-settings.txt`](evidence/cs2-video-settings.txt). CS2 also
+used the scoped `tu_dont_reserve_descriptor_set=true` compatibility setting
+to expose five descriptor sets. That setting removes a separate CS2 Vulkan
+limit violation but was independently shown not to fix this rendering bug.
+
+The roughly 30--33 FPS visible in these captures establishes that the game is
+functional after the patch. It is not a claim of competitive playability:
+CS2 is latency-sensitive, and this frame rate at the tested settings is below
+what most competitive players would consider satisfactory. A timed benchmark
+with controlled camera paths is still required for defensible performance
+figures.
+
+### Scope beyond CS2 and FEX
+
+This is predominantly a Vulkan/Turnip correctness defect, not a general FEX
+execution defect. FEX exposes it in this setup because CS2 runs an x86 Mesa
+driver on an AArch64 system, but the undefined conversion also reproduces in
+a native x86 CPU-only probe without FEX. The corrected A6xx/A7xx descriptor
+builder is shared driver code rather than a CS2-specific workaround.
+
+Other Vulkan applications can therefore benefit if they use non-zero-base-mip
+image views in the affected way. That includes native Vulkan games and may
+include Direct3D games translated through DXVK or VKD3D-Proton. It does not
+mean every Vulkan game is affected, and a game that already renders correctly
+does not disprove the bug. The patch is a correctness fix; no general frame-rate
+improvement is claimed.
 
 ## Potentially affected hardware
 

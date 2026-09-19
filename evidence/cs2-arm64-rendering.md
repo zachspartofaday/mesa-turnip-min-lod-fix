@@ -76,10 +76,23 @@ The same patch was then built into the Valve/SteamOS x86 Turnip candidate and
 installed as the FEX-rootfs graphics provider. The standalone test passed, and
 a live Dust II practice match rendered the world, weapon, materials, lighting,
 and HUD correctly. The running CS2 process mapped that exact patched library.
-The retained screenshot is
-`/home/deck/volterra-experiments/cs2-hzb-repro/cs2-min-lod-patched-ingame.png`,
-SHA-256
-`366254023fcff421779545a98fab6261d068b6b3e6d0dd04362858ce23875fa6`.
+The clean retained comparison, captured after spawn protection expired, is:
+
+- stock:
+  `/home/deck/volterra-experiments/cs2-hzb-repro/cs2-min-lod-stock-before-clean.png`,
+  SHA-256
+  `3fd7b0dcefe7eed8e1066a152704b0bebbadaaf3b7ca16b00ce3747f8f358c57`;
+- patched:
+  `/home/deck/volterra-experiments/cs2-hzb-repro/cs2-min-lod-patched-ingame-clean.png`,
+  SHA-256
+  `643f76bc356d1dbab627993fee735d0645fd588963624a1dd5686693828d5d0e`.
+
+Both are native 1920x1080 Dust II offline deathmatch captures using the same
+settings, but they are different viewpoints rather than a frame-time
+benchmark. Their overlays report 32 FPS stock and 33 FPS patched. The stock
+number is not a fair performance baseline because much of the world is not
+rendered. Roughly 30--33 FPS proves functionality but is below a satisfactory
+target for latency-sensitive competitive CS2 play.
 
 The reproducer, shaders, instructions, and patch are retained in
 [standalone reproducer](../reproducer/README.md).
@@ -192,7 +205,7 @@ sole rendering cause.
 | Matched x86 26.2.2 with minimum-LOD clamp | Pass |
 | Same matched build after reverting only the clamp | Fail again |
 | Patched Valve/SteamOS x86 candidate, standalone repro | Pass |
-| Patched Valve/SteamOS x86 candidate, live CS2 | Dust II world and weapon render correctly; observed average roughly 36 FPS |
+| Patched Valve/SteamOS x86 candidate, live CS2 | Dust II world and weapon render correctly; clean retained frame reports 33 FPS average |
 | FEX 2607 versus Volterra FEX 2609 | Same gameplay corruption |
 | FSR disabled and shaders rebuilt | No change |
 | `-vulkan` | No change; the native Linux build already uses Vulkan |
