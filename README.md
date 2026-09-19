@@ -18,6 +18,8 @@ Windows Dev Kit 2023. Reverting only the change restores the failure.
 ## Repository contents
 
 - [`patches/`](patches/) contains the minimal Mesa source change.
+- [`build/`](build/) contains the tested i686 Meson cross-file and build
+  procedure.
 - [`reproducer/`](reproducer/) contains the headless Vulkan reproducer,
   shaders, CPU packer probe, and build/run instructions.
 - [`evidence/cs2-arm64-rendering.md`](evidence/cs2-arm64-rendering.md) is the
@@ -42,6 +44,27 @@ then reads the same texels through two views:
 The values must match. On the affected x86 Turnip builds, the rebased reads
 return zero. With the patch, both reads match. See the
 [`reproducer` instructions](reproducer/README.md) for build and run commands.
+
+### 32-bit driver status
+
+The source correction is shared by 64-bit and 32-bit Turnip builds; there is
+no separate i686 code patch. The patched Valve/SteamOS `steamos-26.05.16`
+source at commit `035ae2f854d7508cfcd76719f2bf4f0838c7ef57` also builds successfully
+as a genuine i386 `libvulkan_freedreno.so`:
+
+| Property | Recorded value |
+| --- | --- |
+| ELF class / machine | ELF32 / Intel 80386 |
+| Build ID | `e6101b617dbe78a407c1a2f8b3c9962dde16965c` |
+| SHA-256 | `1a78d619737de6b4febc6f34ce090c41e5f30a8098d7f74c895e0eaa4de6164e` |
+
+This matters for 32-bit Linux games such as Half-Life 2: its native launcher
+and bundled DXVK D3D9 library are i386 and therefore load Turnip from the
+guest rootfs's `usr/lib32`, independently of the patched x86-64 driver used by
+CS2. The i686 driver has been preserved alongside its stock counterpart but
+has deliberately not been installed or GPU-tested while the Steam/FEX tool
+contains mixed component versions. See the [`build` instructions](build/)
+and the exact [`i686 build receipt`](evidence/i686-build.txt).
 
 ## Validated result
 
